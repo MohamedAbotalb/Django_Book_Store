@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} Books Home From DB {% endblock %}
+
+{% block content %}
+
+<div class="mx-auto col-6">
+    <h1 class="my-4 ">Update Book</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="book_title">Title</label>
+            <input class="form-control" id="book_title" name="title" value="{{book.title}}" type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="book_author">Author</label>
+            <input class="form-control" id="book_author" name="author" value="{{book.author}}" type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="book_pages">Pages</label>
+            <input class="form-control" id="book_pages" name="pages" value="{{book.pages}}" type="number">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="book_price">Price</label>
+            <input class="form-control" id="book_price" name="price" value="{{book.price}}" type="number">
+        </div>
+        <div class="mb-3 col">
+            <label class="form-label">Current Image</label>
+            {% if book.image %}
+            <img src="{{ book.image.url }}" width="100" alt="{{ book.name }}" class="img-fluid">
+            {% else %}
+            <p>No image available</p>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="book_image">Image</label>
+            <input class="form-control" id="book_image" name="image" value="{{book.image}}" type="file">
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+
+
+{% endblock %}

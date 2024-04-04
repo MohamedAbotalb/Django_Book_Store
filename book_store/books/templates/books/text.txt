@@ -1,0 +1,1 @@
+<img alt="..." class="card-img-top" src="{% static 'books/images/'|add:book.image %}" width="100">

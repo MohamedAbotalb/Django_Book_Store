@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} Bookworm Haven {% endblock %}
+
+{% block content %}
+
+<style>
+    .card:hover {
+        border: 1px solid orange;
+    }
+</style>
+<h1>All Books</h1>
+<div class="row">
+    {% for book in books %}
+    <div class="card m-3 col-3 p-0" style="width: 18rem;">
+        <a href="{% url 'book_page' book.id %}">
+            <img alt="..." class="card-img-top" src="{% static 'books/images/'|add:book.img %}"
+             style=" height: 300px">
+        </a>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+                <p> {{book.title}}</p>
+                <p class="badge bg-primary">{{book.price}} LE</p>
+            </div>
+            <div class="row">
+                <p><strong>Pages no: </strong>{{book.pages}} </p>
+                <p><strong>Author: </strong> {{book.author}}</p>
+            </div>
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-primary border" type="submit"><i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-danger border" type="submit"><i class=" fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

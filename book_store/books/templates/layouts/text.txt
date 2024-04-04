@@ -1,0 +1,3 @@
+{% url 'home' %}
+{% url 'contact' %}
+{% url 'about' %}
