@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import json
 
 from books.models import Book
+from books.forms import BookForm
 
 books = [
     {
@@ -158,3 +159,21 @@ def book_update(request, book_id):
         return redirect("book_show", book_id=book_id)
 
     return render(request, "books/crud/update.html", {"book": book})
+
+
+def book_create_from_forms(request):
+    form = BookForm()
+
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = "books/images/default.png"
+            if request.FILES:
+                image = form.cleaned_data["image"]
+
+            book = Book(title=form.cleaned_data['title'], author=form.cleaned_data['author'],
+                        price=form.cleaned_data['price'], pages=form.cleaned_data['pages'], image=image)
+            book.save()
+            return redirect(book.show_url)
+
+    return render(request, "books/forms/create.html", {"form": form})

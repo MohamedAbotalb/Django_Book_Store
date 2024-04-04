@@ -12,6 +12,7 @@
 <h1 class="my-4">All Books From DB</h1>
 
 <a href="{% url 'book_create' %}" class="btn btn-primary mb-4">Add New Book</a>
+<a href="{% url 'book_create_from_forms' %}" class="btn btn-dark mb-4">Add New Book via forms</a>
 
 <div class="row">
     {% for book in books %}
