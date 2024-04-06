@@ -9,7 +9,7 @@ class BaseBookForm:
     def clean_title(self):
         title = self.cleaned_data['title']
         title_found = Book.objects.filter(title=title).exists()
-        if title_found:
+        if title_found and self.cleaned_data['title'] != title:
             raise forms.ValidationError('The title is already exist')
         elif len(title) < 3:
             raise forms.ValidationError('The title should be at least 3 characters')

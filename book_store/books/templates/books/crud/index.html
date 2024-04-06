@@ -36,7 +36,9 @@
                 <p><strong>Author: </strong> {{book.author}}</p>
             </div>
             <div class="d-flex justify-content-center gap-2">
-                <a class="btn btn-primary border" href="{{ book.update_url  }}"><i
+<!--                <a class="btn btn-primary border" href="{{ book.update_url  }}"><i-->
+<!--                        class="fa-regular fa-pen-to-square"></i></a>-->
+                <a class="btn btn-primary border" href="{{ book.update_forms_url  }}"><i
                         class="fa-regular fa-pen-to-square"></i></a>
                 <a class="btn btn-danger border delete-book" data-bs-target="#deleteModal{{ book.id }}"
                    data-bs-toggle="modal">

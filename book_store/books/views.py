@@ -189,3 +189,14 @@ def book_create_from_model_forms(request):
 
     return render(request, 'books/forms/create_model_form.html', context={'form': form})
 
+
+def book_update_model_forms(request, book_id):
+    book = Book.get_book_by_id(book_id)
+    form = BookModelForm(instance=book)
+    if request.method == "POST":
+        form = BookModelForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            book = form.save()
+            return redirect(book.show_url)
+
+    return render(request, 'books/forms/update.html', context={"form": form})

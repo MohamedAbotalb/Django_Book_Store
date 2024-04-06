@@ -1,5 +1,5 @@
 from django.db import models
-from django.shortcuts import reverse
+from django.shortcuts import reverse, get_object_or_404
 
 
 # Create your models here.
@@ -36,4 +36,13 @@ class Book(models.Model):
     @property
     def update_url(self):
         url = reverse('book_update', args=[self.id])
+        return url
+
+    @classmethod
+    def get_book_by_id(cls, id):
+        return  get_object_or_404(cls, pk=id)
+
+    @property
+    def update_forms_url(self):
+        url = reverse('book_update_model_forms', args=[self.id])
         return url
