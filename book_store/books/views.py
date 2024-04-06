@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import json
 
 from books.models import Book
-from books.forms import BookForm
+from books.forms import BookForm, BookModelForm
 
 books = [
     {
@@ -177,3 +177,15 @@ def book_create_from_forms(request):
             return redirect(book.show_url)
 
     return render(request, "books/forms/create.html", {"form": form})
+
+
+def book_create_from_model_forms(request):
+    form = BookModelForm()
+    if request.method == "POST":
+        form = BookModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            book = form.save()
+            return redirect(book.show_url)
+
+    return render(request, 'books/forms/create_model_form.html', context={'form': form})
+

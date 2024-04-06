@@ -13,6 +13,7 @@
 
 <a href="{% url 'book_create' %}" class="btn btn-primary mb-4">Add New Book</a>
 <a href="{% url 'book_create_from_forms' %}" class="btn btn-dark mb-4">Add New Book via forms</a>
+<a href="{% url 'book_create_from_model_forms' %}" class="btn btn-success mb-4">Add New Book via model forms</a>
 
 <div class="row">
     {% for book in books %}
