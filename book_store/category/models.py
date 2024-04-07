@@ -1,5 +1,5 @@
 from django.db import models
-from django.shortcuts import  get_object_or_404, reverse
+from django.shortcuts import get_object_or_404, reverse
 
 
 # Create your models here.

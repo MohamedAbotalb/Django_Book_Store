@@ -1,18 +1,20 @@
 from django.db import models
 from django.shortcuts import reverse, get_object_or_404
 
+from category.models import Category
 
 # Create your models here.
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     author = models.CharField(max_length=100, null=True, blank=True)
     pages = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     image = models.ImageField(upload_to='books/images', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='books')
 
     def __str__(self):
         return self.title
