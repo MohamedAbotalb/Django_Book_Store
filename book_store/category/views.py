@@ -1,4 +1,5 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from category.models import Category
@@ -10,7 +11,9 @@ def category_index(request):
     return render(request, 'category/index.html', {'categories': categories})
 
 
+@login_required(login_url='login')
 def category_create(request):
+    print(request.user)
     form = CategoryModelForm()
     if request.method == "POST":
         form = CategoryModelForm(request.POST, request.FILES)
@@ -28,6 +31,7 @@ def category_show(request, id):
     return render(request, 'category/show.html', {'category': category})
 
 
+@login_required(login_url='login')
 def category_update(request, id):
     category = Category.get_category_by_id(id)
     form = CategoryModelForm(instance=category)
@@ -40,6 +44,7 @@ def category_update(request, id):
     return render(request, 'category/update.html', context={"form": form})
 
 
+@login_required(login_url='login')
 def category_delete(request, id):
     category = get_object_or_404(Category, pk=id)
     category.delete()
