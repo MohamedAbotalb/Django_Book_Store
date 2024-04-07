@@ -10,32 +10,84 @@
 
 {% block content %}
 
+<style>
+    .card:hover {
+        border: 1px solid orange;
+    }
+</style>
+
 <h1 class="my-4">Book Details from DB</h1>
 <div class="alert alert-secondary text-center d-flex justify-content-evenly my-5">
-    <img src="{{book.image_url}}" alt="..." class="card-img-top" style="width: 25%"/>
+    <img alt="..." class="card-img-top" src="{{book.image_url}}" style="width: 25%"/>
     <div class="d-flex flex-column justify-content-between pt-3">
-        <p class="alert alert-primary">Title : {{ book.title }}</p>
-        <p class="alert alert-primary">Author : {{ book.author }}</p>
-        <p class="alert alert-primary">Pages : {{ book.pages }}</p>
-        <p class="alert alert-primary">Price : {{ book.price }} LE</p>
+        <p class="alert alert-success">Title : {{ book.title }}</p>
+        <p class="alert alert-success">Author : {{ book.author }}</p>
+        <p class="alert alert-success">Pages : {{ book.pages }}</p>
+        <p class="alert alert-success">Price : {{ book.price }} LE</p>
+        <p class="alert alert-success"><a href="{{ book.category.show_url }}">Category : {{ book.category }}</a></p>
     </div>
 </div>
 
-<!--<div class="card m-2 p-0" style="width: 18rem;">-->
-<!--    <img alt="..." class="card-img-top" src="" width="100">-->
-<!--    <div class="card-body">-->
-<!--        <div class="d-flex justify-content-between align-items-baseline">-->
-<!--            <p> {{book.title}}</p>-->
-<!--            <p class="badge bg-primary">{{book.price}} LE</p>-->
-<!--        </div>-->
-<!--        <div class="row">-->
-<!--            <p><strong>Pages no: </strong>{{book.pages}} </p>-->
-<!--            <p><strong>Author: </strong> {{book.author}}</p>-->
-<!--        </div>-->
-<!--        <div class="d-flex justify-content-center gap-2">-->
-<!--            <button class="btn btn-primary border" type="submit"><i class="fa-regular fa-pen-to-square"></i></button>-->
-<!--            <button class="btn btn-danger border" type="submit"><i class=" fa-solid fa-xmark"></i></button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+{% if book.category.books.all %}
+
+<h3 class="my-4">Other books with the same category</h3>
+<div class="row">
+    {% for book in book.category.books.all %}
+    <div class="card m-3 col-3 p-0" style="width: 18rem;">
+        <a href="{{ book.show_url }}">
+            <img alt="..." class="card-img-top" src="{{book.image_url}}"
+                 style=" height: 300px">
+        </a>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-baseline">
+                <p> {{book.title}}</p>
+                <p class="badge bg-success">{{book.price}} LE</p>
+            </div>
+            <div class="row">
+                <p><strong>Pages no: </strong>{{book.pages}} </p>
+                <p><strong>Author: </strong> {{book.author}}</p>
+            </div>
+            <div class="d-flex justify-content-center gap-2">
+                <!--                <a class="btn btn-primary border" href="{{ book.update_url  }}"><i-->
+                <!--                        class="fa-regular fa-pen-to-square"></i></a>-->
+                <a class="btn btn-primary border" href="{{ book.update_forms_url  }}"><i
+                        class="fa-regular fa-pen-to-square"></i></a>
+                <a class="btn btn-danger border delete-book" data-bs-target="#deleteModal{{ book.id }}"
+                   data-bs-toggle="modal">
+                    <i class=" fa-solid fa-xmark"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div aria-hidden="true" aria-labelledby="deleteModalLabel" class="modal fade" id="deleteModal{{ book.id }}"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button aria-label="Close" class="close" data-bs-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ book.title }}"?
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ book.delete_url }}" id="delete-book-form-{{ book.id }}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Delete Modal -->
+
+    {% endfor %}
+</div>
+{% endif %}
+
 {% endblock%}
