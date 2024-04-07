@@ -184,7 +184,16 @@ def book_create_from_model_forms(request):
     if request.method == "POST":
         form = BookModelForm(request.POST, request.FILES)
         if form.is_valid():
-            book = form.save()
+            book = form.save(commit=False)
+            book.image = "books/images/default.png"
+            if request.FILES:
+                book.image = form.cleaned_data["image"]
+            book.title = form.cleaned_data['title']
+            book.author = form.cleaned_data['author']
+            book.price = form.cleaned_data['price']
+            book.pages = form.cleaned_data['pages']
+            book.category = form.cleaned_data['category']
+            book.save()
             return redirect(book.show_url)
 
     return render(request, 'books/forms/create_model_form.html', context={'form': form})
